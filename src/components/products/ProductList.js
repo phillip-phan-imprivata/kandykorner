@@ -9,7 +9,7 @@ export const ProductList = () => {
 
   useEffect(() => {
     getProductTypes()
-    getProducts()
+    .then(getProducts)
   }, [])
 
   return (

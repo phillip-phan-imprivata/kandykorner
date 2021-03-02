@@ -13,29 +13,52 @@ export const OrderList = () => {
     .then(getCustomerCandy)
   }, [])
 
-  const matchingProducts = customerCandy.filter(cc => cc.customerId === parseInt(localStorage.kandy_customer))
+  let matchingProducts = customerCandy.filter(cc => cc.customerId === parseInt(localStorage.kandy_customer))
+  matchingProducts = matchingProducts.map(cc => {
+    return products.find(product => product.id === cc.productId)
+  })
   
-  const findProduct = (cc) => {
-    let matchingProduct = products.find(product => product.id === cc.productId)
-    return matchingProduct
-  }
+  const handleMatchingProducts = (products) => {
+    const productQuantities = []
+    let id = 1
 
-  let productQuantities = {}
+    products.map(product => {
+      if (productQuantities.find(pq => pq.name === product.name) === undefined){
+        const newProduct = {
+          name: product.name,
+          quantity: 1,
+          price: product.price ,
+          id: id
+        }
+        productQuantities.push(newProduct)
+        id++
+      } else {
+        const pqIndex = productQuantities.indexOf(productQuantities.find(pq => pq.name === product.name))
+
+        productQuantities[pqIndex].quantity = productQuantities[pqIndex].quantity + 1
+      }
+    })
+
+    return productQuantities
+  }
   
   return (
     <div className="orders">
       <table>
-        <tr>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Price/Unit</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price/Unit</th>
+          </tr>
+        </thead>
+        <tbody>
       {
-        matchingProducts.map(cc => {
-          const product = findProduct(cc)
-          return <OrderCard key={cc.id} product={product} />
+        handleMatchingProducts(matchingProducts).map(product => {
+          return <OrderCard key={product.id} product={product} />
         })
       }
+        </tbody>
       </table>
     </div>
   )
