@@ -17,6 +17,8 @@ export const OrderList = () => {
   matchingProducts = matchingProducts.map(cc => {
     return products.find(product => product.id === cc.productId)
   })
+
+  let totalPrice = 0
   
   const handleMatchingProducts = (products) => {
     const productQuantities = []
@@ -35,8 +37,11 @@ export const OrderList = () => {
       } else {
         const pqIndex = productQuantities.indexOf(productQuantities.find(pq => pq.name === product.name))
 
-        productQuantities[pqIndex].quantity = productQuantities[pqIndex].quantity + 1
+        productQuantities[pqIndex].quantity += 1
+        productQuantities[pqIndex].price += product.price
       }
+
+      totalPrice += product.price
     })
 
     return productQuantities
@@ -49,7 +54,7 @@ export const OrderList = () => {
           <tr>
             <th>Product</th>
             <th>Quantity</th>
-            <th>Price/Unit</th>
+            <th>Price</th>
           </tr>
         </thead>
         <tbody>
@@ -59,6 +64,12 @@ export const OrderList = () => {
         })
       }
         </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan="2">Total Price: </td>
+            <td>{totalPrice.toFixed(2)}</td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   )

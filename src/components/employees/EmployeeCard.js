@@ -3,7 +3,6 @@ import React from "react"
 export const EmployeeCard = (props) => {
   return (
     <div className="employee">
-      {console.log(props.employee)}
       <div className="employee__name">{props.employee.name}</div>
       <div className="employee__location">{props.location.address}</div>
       <div className="employee__manager">{props.employee.manager ? "Manager" : "Staff"}</div>
