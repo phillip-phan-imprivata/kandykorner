@@ -10,30 +10,34 @@ import { EmployeeProvider } from "./employees/EmployeeProvider"
 import { EmployeeForm } from "./employees/EmployeeForm"
 import { CustomerCandyProvider } from "./customerCandy/CustomerCandyProvider"
 import { OrderList } from "./orders/OrderList"
+import { CustomerProvider } from "./customers/CustomerProvider"
+import { CustomerList } from "./customers/CustomerList"
+import { ProductSearch } from "./products/ProductSearch"
 
 export const ApplicationViews = () => {
   return (
     <>
-      <Route exact path="/order">
-        <CustomerCandyProvider>
-        <ProductTypeProvider>
-        <ProductProvider>
-          <OrderList />
-        </ProductProvider>
-        </ProductTypeProvider>
-        </CustomerCandyProvider>
-      </Route>
+      <CustomerCandyProvider>
+      <ProductTypeProvider>
+      <ProductProvider>
+        <Route exact path="/order">
+            <OrderList />
+        </Route>
+      </ProductProvider>
+      </ProductTypeProvider>
+      </CustomerCandyProvider>
 
-      <Route exact path="/locations">
-        <LocationProvider>
-          <LocationList />
-        </LocationProvider>
-      </Route>
+      <LocationProvider>
+        <Route exact path="/locations">
+            <LocationList />
+        </Route>
+      </LocationProvider>
 
       <CustomerCandyProvider>
       <ProductProvider>
       <ProductTypeProvider>
         <Route exact path="/products">
+          <ProductSearch />
           <ProductList />
         </Route>
       </ProductTypeProvider>
@@ -51,6 +55,14 @@ export const ApplicationViews = () => {
         </Route>
       </LocationProvider>
       </EmployeeProvider>
+
+      <CustomerProvider>
+      <CustomerCandyProvider>
+        <Route exact path="/customers">
+          <CustomerList />
+        </Route>
+      </CustomerCandyProvider>
+      </CustomerProvider>
     </>
   )
 }
